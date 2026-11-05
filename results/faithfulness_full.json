@@ -1,0 +1,71 @@
+{
+ "first_choice": {
+  "n_claims": 1482,
+  "support_rate_llm": 0.0621,
+  "support_rate_nli": 0.2065,
+  "support_rate_combined": 0.0479,
+  "kappa_llm_vs_nli": 0.2889,
+  "agreement_llm_vs_nli": 0.8273,
+  "evidence_from_cited_patent": 1.0
+ },
+ "after_retries": {
+  "n_claims": 1482,
+  "support_rate_llm": 0.0634,
+  "support_rate_nli": 0.1491,
+  "support_rate_combined": 0.0587,
+  "kappa_llm_vs_nli": 0.5087,
+  "agreement_llm_vs_nli": 0.9049
+ },
+ "features": {
+  "n_claims": 499,
+  "support_rate_llm": 0.8798,
+  "support_rate_nli": 0.8677,
+  "support_rate_combined": 0.7956,
+  "kappa_llm_vs_nli": 0.2917,
+  "agreement_llm_vs_nli": 0.8437
+ },
+ "shipped": {
+  "reports_with_verified_rows": 0.38,
+  "mean_verified_items": 0.58,
+  "mean_verified_rows": 0.79,
+  "mean_pairs": 14.82,
+  "pair_fill_rate": 0.0533,
+  "mean_features": 3.97,
+  "feature_extraction_failed": 0.0
+ },
+ "mean_attempts": 2.98,
+ "mean_seconds_per_report": 22.248,
+ "nli_threshold": 0.1,
+ "negative_control": {
+  "n_claims": 1482,
+  "matched_support_rate_llm": 0.0634,
+  "mismatched_support_rate_llm": 0.0007,
+  "matched_support_rate_nli": 0.1491,
+  "mismatched_support_rate_nli": 0.0601,
+  "judges_discriminate": false
+ },
+ "agent_behaviour": {
+  "n_runs": 100,
+  "mean_steps": 10.27,
+  "planner_calls": 953,
+  "planner_action_accept_rate": 0.6086,
+  "replaced_actions": 373,
+  "guardrail_steps": 74,
+  "planner_output_errors": 0,
+  "mean_feature_searches": 4.0,
+  "tool_use": {
+   "claim_chart": 100,
+   "extract_features": 100,
+   "finish": 100,
+   "graph_neighbours": 12,
+   "read_patent": 215,
+   "search_feature": 400,
+   "search_idea": 100
+  },
+  "mean_seconds": 48.749,
+  "concurrent_runs": 2
+ },
+ "n_test_queries": 100,
+ "model": "qwen2.5:3b-instruct",
+ "nli_model": "cross-encoder/nli-deberta-v3-small"
+}

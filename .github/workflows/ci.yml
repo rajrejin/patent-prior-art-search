@@ -1,0 +1,19 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # CPU-only PyTorch first, then the package with every extra the tests import.
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e ".[dev,ml,serve]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: mypy
+      # Tests that need cached OPS data, built indexes, Neo4j or Ollama skip with a reason in CI.
+      # The 80 percent coverage gate is enforced locally (scripts/check.ps1), where data exists.
+      - run: pytest -rs

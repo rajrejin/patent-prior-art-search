@@ -1,0 +1,26 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "AMD64 Family 23 Model 24 Stepping 1, AuthenticAMD",
+  "cpu_count": 8,
+  "ram_gb": 6.94,
+  "python": "3.13.14",
+  "gpu": "none assumed (CPU-only target)",
+  "docker": "Docker version 29.8.2, build 7fc2dff",
+  "ollama": null,
+  "git": "git version 2.55.0.windows.5",
+  "libraries": {
+    "pydantic": "2.14.1",
+    "typer": "0.27.3",
+    "httpx": "0.28.1",
+    "lxml": "6.1.3",
+    "numpy": null,
+    "torch": null,
+    "sentence-transformers": null,
+    "chromadb": null,
+    "rank-bm25": null,
+    "neo4j": null,
+    "fastapi": null,
+    "mcp": null,
+    "streamlit": null
+  }
+}

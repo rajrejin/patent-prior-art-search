@@ -1,0 +1,3 @@
+# Runtime dependencies are declared in pyproject.toml; pinned versions are
+# written to requirements.lock.txt by `scripts/freeze.ps1` after a full install.
+-e .[ml,serve]

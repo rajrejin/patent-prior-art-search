@@ -1,0 +1,59 @@
+{
+ "description": "Summary of the first design round (GraphRAG built on vector search; free-text reports), kept for the decision log. Full files are in git history at commit a4cc70b.",
+ "test_retrieval": {
+  "n_queries": 300,
+  "ndcg@10": {
+   "bm25": {
+    "mean": 0.2449,
+    "low": 0.2138,
+    "high": 0.2738
+   },
+   "vector": {
+    "mean": 0.1888,
+    "low": 0.1624,
+    "high": 0.2153
+   },
+   "graphrag": {
+    "mean": 0.1672,
+    "low": 0.1415,
+    "high": 0.1929
+   }
+  },
+  "paired_ndcg@10": {
+   "bm25-vector": {
+    "diff": 0.0561,
+    "low": 0.0315,
+    "high": 0.0801,
+    "p": 0.001,
+    "n": 300
+   },
+   "bm25-graphrag": {
+    "diff": 0.0777,
+    "low": 0.0511,
+    "high": 0.1025,
+    "p": 0.001,
+    "n": 300
+   },
+   "vector-graphrag": {
+    "diff": 0.0215,
+    "low": 0.0123,
+    "high": 0.0319,
+    "p": 0.001,
+    "n": 300
+   }
+  }
+ },
+ "reports_free_text_quotes": {
+  "n_reports": 100,
+  "pass_rate_before_retries": 0.04,
+  "pass_rate_after_retries": 0.05,
+  "verbatim_evidence_after_retries": 0.4489
+ },
+ "reports_evidence_by_id": {
+  "n_reports": 100,
+  "pass_rate_before_retries": 0.18,
+  "pass_rate_after_retries": 0.29,
+  "still_failing_after_retries": 0.71,
+  "verbatim_evidence_after_retries": 0.98
+ }
+}

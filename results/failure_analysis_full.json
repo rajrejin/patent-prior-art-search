@@ -1,0 +1,145 @@
+{
+ "n_queries": 300,
+ "main_method": "rerank",
+ "baseline": "bm25",
+ "main_ndcg_zero": 110,
+ "both_zero": 85,
+ "main_beats_baseline": 106,
+ "main_loses_to_baseline": 87,
+ "mean_main_ndcg_by_num_relevant": {
+  "3": {
+   "mean": 0.2715,
+   "n": 34
+  },
+  "4-5": {
+   "mean": 0.2328,
+   "n": 145
+  },
+  "6+": {
+   "mean": 0.2558,
+   "n": 121
+  }
+ },
+ "mean_main_ndcg_by_subclass": {
+  "B60K": {
+   "mean": 0.3365,
+   "n": 15
+  },
+  "B60L": {
+   "mean": 0.2528,
+   "n": 50
+  },
+  "C01B": {
+   "mean": 0.2575,
+   "n": 16
+  },
+  "C01G": {
+   "mean": 0.208,
+   "n": 20
+  },
+  "G01R": {
+   "mean": 0.2038,
+   "n": 26
+  },
+  "H01G": {
+   "mean": 0.1713,
+   "n": 12
+  },
+  "H01M": {
+   "mean": 0.1658,
+   "n": 68
+  }
+ },
+ "worst_10": [
+  {
+   "qid": "EP3047999A1",
+   "year": 2016,
+   "subclass": "B60L",
+   "n_relevant": 4,
+   "rerank": 0.0,
+   "bm25": 0.3633,
+   "diff": -0.3633
+  },
+  {
+   "qid": "EP3276775A1",
+   "year": 2018,
+   "subclass": "B60K",
+   "n_relevant": 8,
+   "rerank": 0.0,
+   "bm25": 0.0,
+   "diff": 0.0
+  },
+  {
+   "qid": "EP3439074A1",
+   "year": 2019,
+   "subclass": "B82Y",
+   "n_relevant": 3,
+   "rerank": 0.0,
+   "bm25": 0.0,
+   "diff": 0.0
+  },
+  {
+   "qid": "EP3565025A1",
+   "year": 2019,
+   "subclass": "B23K",
+   "n_relevant": 3,
+   "rerank": 0.0,
+   "bm25": 0.0,
+   "diff": 0.0
+  },
+  {
+   "qid": "EP3800730A1",
+   "year": 2021,
+   "subclass": "H01M",
+   "n_relevant": 6,
+   "rerank": 0.0,
+   "bm25": 0.0,
+   "diff": 0.0
+  },
+  {
+   "qid": "WO2015016564A1",
+   "year": 2015,
+   "subclass": "H01M",
+   "n_relevant": 5,
+   "rerank": 0.0,
+   "bm25": 0.0,
+   "diff": 0.0
+  },
+  {
+   "qid": "WO2015016974A1",
+   "year": 2015,
+   "subclass": "B60L",
+   "n_relevant": 5,
+   "rerank": 0.0,
+   "bm25": 0.3392,
+   "diff": -0.3392
+  },
+  {
+   "qid": "WO2015031469A1",
+   "year": 2015,
+   "subclass": "H01M",
+   "n_relevant": 7,
+   "rerank": 0.0,
+   "bm25": 0.0,
+   "diff": 0.0
+  },
+  {
+   "qid": "WO2015053199A1",
+   "year": 2015,
+   "subclass": "H01M",
+   "n_relevant": 6,
+   "rerank": 0.0,
+   "bm25": 0.0955,
+   "diff": -0.0955
+  },
+  {
+   "qid": "WO2015064535A1",
+   "year": 2015,
+   "subclass": "H01M",
+   "n_relevant": 4,
+   "rerank": 0.0,
+   "bm25": 0.0,
+   "diff": 0.0
+  }
+ ]
+}

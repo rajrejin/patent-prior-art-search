@@ -1,0 +1,91 @@
+{
+ "description": "Claim charts of the second design round as first run on the test queries, when the 3B model chose the evidence sentence of each row by id (replaced by embedding retrieval, docs/DECISIONS.md, D28). 'summary' is that run's results/faithfulness_full.json. 'rows' was computed on the VM from the final chart attempt of each run record (feature claims and row claims counted separately; the summary's support rates mix the two).",
+ "rows": {
+  "n_rows": 631,
+  "llm_supported": 52,
+  "nli_supported": 112,
+  "both_supported": 39,
+  "n_features": 499,
+  "features_both_supported": 395
+ },
+ "summary": {
+  "before_retries": {
+   "n_reports": 100,
+   "n_valid_json": 100,
+   "report_pass_rate": 0.0,
+   "mean_valid_citation_fraction": 1.0,
+   "mean_evidence_verbatim_fraction": 0.9728,
+   "n_claims": 1358,
+   "support_rate_llm": 0.3748,
+   "support_rate_nli": 0.4278,
+   "support_rate_combined": 0.3277,
+   "kappa_llm_vs_nli": 0.6944,
+   "agreement_llm_vs_nli": 0.8527
+  },
+  "after_retries": {
+   "n_reports": 100,
+   "n_valid_json": 100,
+   "report_pass_rate": 0.0,
+   "mean_valid_citation_fraction": 1.0,
+   "mean_evidence_verbatim_fraction": 0.9493,
+   "n_claims": 1130,
+   "support_rate_llm": 0.4381,
+   "support_rate_nli": 0.4726,
+   "support_rate_combined": 0.3841,
+   "kappa_llm_vs_nli": 0.7131,
+   "agreement_llm_vs_nli": 0.8575
+  },
+  "shipped": {
+   "reports_with_verified_rows": 0.24,
+   "mean_verified_items": 0.27,
+   "mean_verified_rows": 0.33,
+   "mean_removed_rows": 5.98,
+   "row_keep_rate": 0.0523,
+   "mean_features": 3.95,
+   "feature_extraction_failed": 0.0
+  },
+  "still_failing_after_retries": 1.0,
+  "mean_attempts": 3.0,
+  "mean_seconds_per_report": 33.357,
+  "nli_threshold": 0.2,
+  "negative_control": {
+   "n_claims": 631,
+   "matched_support_rate_llm": 0.0824,
+   "mismatched_support_rate_llm": 0.0016,
+   "matched_support_rate_nli": 0.1775,
+   "mismatched_support_rate_nli": 0.0396,
+   "judges_discriminate": false
+  },
+  "agent_behaviour": {
+   "n_runs": 100,
+   "mean_steps": 10.29,
+   "planner_calls": 962,
+   "planner_action_accept_rate": 0.6143,
+   "replaced_actions": 371,
+   "guardrail_steps": 67,
+   "planner_output_errors": 0,
+   "mean_feature_searches": 4.0,
+   "tool_use": {
+    "claim_chart": 100,
+    "extract_features": 100,
+    "finish": 100,
+    "graph_neighbours": 9,
+    "read_patent": 220,
+    "search_feature": 400,
+    "search_idea": 100
+   },
+   "mean_seconds": 69.513,
+   "concurrent_runs": 2
+  },
+  "n_test_queries": 100,
+  "model": "qwen2.5:3b-instruct",
+  "nli_model": "cross-encoder/nli-deberta-v3-small"
+ },
+ "nli_threshold": {
+  "threshold": 0.2,
+  "balanced_accuracy": 0.5809,
+  "n_pos": 68,
+  "n_neg": 68,
+  "selected_on": "validation"
+ }
+}

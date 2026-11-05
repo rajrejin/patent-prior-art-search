@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1
+# API image: FastAPI + retrieval stack (CPU-only PyTorch). Build from the repository root:
+#   docker build -f docker/Dockerfile.api -t patentrag-api .
+FROM python:3.11-slim AS build
+ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /src
+COPY pyproject.toml ./
+COPY src ./src
+COPY api ./api
+RUN python -m venv /opt/venv \
+ && /opt/venv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu \
+ && /opt/venv/bin/pip install ".[ml,serve]"
+
+FROM python:3.11-slim AS runtime
+ENV PATH=/opt/venv/bin:$PATH \
+    PYTHONUNBUFFERED=1 \
+    PATENTRAG_ROOT=/app \
+    HF_HOME=/app/stores/hf
+RUN useradd --create-home --uid 10001 patentrag \
+ && mkdir -p /app/stores /app/data /app/results /app/configs \
+ && chown -R patentrag /app
+COPY --from=build /opt/venv /opt/venv
+COPY --chown=patentrag configs /app/configs
+WORKDIR /app
+USER patentrag
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD python -c "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/v1/health', timeout=4)"
+CMD ["uvicorn", "api.main:get_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]

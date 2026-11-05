@@ -1,0 +1,12 @@
+{
+ "judge_model": "qwen2.5:7b-instruct",
+ "n_reports": 100,
+ "feature_support_rate": 0.9158,
+ "n_rows_kept": 79,
+ "n_rows_removed": 1403,
+ "support_rate_kept_rows": 0.8734,
+ "support_rate_removed_rows": 0.0157,
+ "support_rate_all_draft_rows": 0.0614,
+ "support_rate_mismatched_control": 0.0013,
+ "n_control": 1482
+}

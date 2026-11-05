@@ -1,0 +1,127 @@
+{
+ "api": "http://localhost:8000",
+ "query_patent": "EP2826920A1",
+ "ready": {
+  "status": 200,
+  "ready": true,
+  "problems": [],
+  "indexes": true,
+  "neo4j": true,
+  "llm": true,
+  "scope": "full"
+ },
+ "search_auto": {
+  "ok": true,
+  "method_used": "rerank",
+  "ms": 37699.8,
+  "top": [
+   "EP2826920A1",
+   "EP1834854A2",
+   "EP2597207A1"
+  ]
+ },
+ "search_bm25": {
+  "ok": true,
+  "method_used": "bm25",
+  "ms": 121.8,
+  "top": [
+   "EP2826920A1",
+   "EP1834854A2",
+   "JP2007247230A"
+  ]
+ },
+ "search_vector": {
+  "ok": true,
+  "method_used": "vector",
+  "ms": 36.6,
+  "top": [
+   "EP2826920A1",
+   "EP1834854A2",
+   "US6166517A"
+  ]
+ },
+ "search_hybrid": {
+  "ok": true,
+  "method_used": "hybrid",
+  "ms": 224.2,
+  "top": [
+   "EP2826920A1",
+   "EP1834854A2",
+   "EP2463137A2"
+  ]
+ },
+ "search_rerank": {
+  "ok": true,
+  "method_used": "rerank",
+  "ms": 325.9,
+  "top": [
+   "EP2826920A1",
+   "EP1834854A2",
+   "EP2597207A1"
+  ]
+ },
+ "search_graphrag": {
+  "ok": true,
+  "method_used": "graphrag",
+  "ms": 743.0,
+  "top": [
+   "EP2826920A1",
+   "EP1834854A2",
+   "JP2007247230A"
+  ]
+ },
+ "agent": {
+  "status": "done",
+  "seconds": 40.0,
+  "steps": [
+   [
+    "search_idea",
+    "planner"
+   ],
+   [
+    "extract_features",
+    "planner"
+   ],
+   [
+    "search_feature",
+    "planner"
+   ],
+   [
+    "search_feature",
+    "fallback"
+   ],
+   [
+    "search_feature",
+    "fallback"
+   ],
+   [
+    "search_feature",
+    "fallback"
+   ],
+   [
+    "read_patent",
+    "planner"
+   ],
+   [
+    "read_patent",
+    "planner"
+   ],
+   [
+    "read_patent",
+    "planner"
+   ],
+   [
+    "claim_chart",
+    "fallback"
+   ],
+   [
+    "finish",
+    "guardrail"
+   ]
+  ],
+  "verified_items": 2,
+  "removed_rows": 12,
+  "warning": "12 of 15 feature and patent pairs have no verified evidence (up to 3 sentences were tried for each)."
+ },
+ "trace_ok": true
+}

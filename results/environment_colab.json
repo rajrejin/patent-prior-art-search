@@ -1,0 +1,11 @@
+{
+  "platform": "Google Colab (Linux VM), 2 vCPU, 12 GB RAM",
+  "gpu_runs": "Tesla T4: tuning, leakage demonstrations, ablations, robustness, the agent's validation runs, the claim-chart reports and the 7B audit",
+  "cpu_runs": "no GPU (Colab usage limit): the full test suite, the test comparison and the failure analysis; the latencies in eval_full_test.json are therefore CPU latencies",
+  "services": {
+    "neo4j": "5.26.0 community (Java 17), heap 1 GB, page cache 512 MB",
+    "ollama": "qwen2.5:3b-instruct, 2 parallel requests, prompt-cache watchdog (scripts/ollama_watchdog.sh)",
+    "audit_model": "qwen2.5:7b-instruct"
+  },
+  "source": "scripts/colab_setup.sh, scripts/pipeline.sh and the notebook logs"
+}

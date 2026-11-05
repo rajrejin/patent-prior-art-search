@@ -1,0 +1,26 @@
+{
+  "expected": {
+    "Patent": 4357,
+    "CPC": 8239,
+    "Applicant": 2745,
+    "Family": 4259,
+    "CITES": 4262,
+    "CLASSIFIED_AS": 42977,
+    "CHILD_OF": 8230,
+    "FILED_BY": 6041,
+    "IN_FAMILY": 4357
+  },
+  "actual": {
+    "Patent": 4357,
+    "CPC": 8239,
+    "Applicant": 2745,
+    "Family": 4259,
+    "CITES": 4262,
+    "CLASSIFIED_AS": 42977,
+    "CHILD_OF": 8230,
+    "FILED_BY": 6041,
+    "IN_FAMILY": 4357
+  },
+  "match": true,
+  "dropped_citations": 18856
+}

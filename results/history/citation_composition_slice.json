@@ -1,0 +1,48 @@
+{
+  "scope": "slice",
+  "seed_patents": 300,
+  "distinct_cited_documents": 1289,
+  "by_authority": [
+    [
+      "JP",
+      406
+    ],
+    [
+      "US",
+      261
+    ],
+    [
+      "CN",
+      204
+    ],
+    [
+      "KR",
+      147
+    ],
+    [
+      "WO",
+      143
+    ],
+    [
+      "DE",
+      63
+    ],
+    [
+      "EP",
+      58
+    ],
+    [
+      "GB",
+      4
+    ],
+    [
+      "FR",
+      3
+    ]
+  ],
+  "with_date": 493,
+  "without_date": 796,
+  "in_configured_authorities_and_years": 50,
+  "share_in_configured_authorities_and_years": 0.038789759503491075,
+  "mean_cited_documents_per_seed": 4.296666666666667
+}
