@@ -20,9 +20,5 @@ neo4j_data/
 results/testset_manifest_*.json
 results/agent_*.jsonl
 results/example_agent_run.json
-docs/PROJECT_GUIDE.html
-# personal study guide sources (kept locally, not published)
-docs/guide/
-scripts/build_guide.py
-docs/PROJECT_GUIDE.pdf
+docs/*.pdf
 colab/*.zip

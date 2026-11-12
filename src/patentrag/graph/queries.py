@@ -1,6 +1,6 @@
 """Read queries used by GraphRAG. All of them take a query-time exclusion context.
 
-Leakage controls (Section 7.1) are applied here, not by deleting data:
+Leakage controls are applied here, not by deleting data:
   * `exclude`: pub_ids that may never appear in a result or be traversed through (the query
     patent itself and its family members);
   * `hide_outgoing_from`: pub_ids whose outgoing CITES edges are invisible for this query.
@@ -27,15 +27,6 @@ RETURN DISTINCT a.pub_id AS src, b.pub_id AS dst,
 CPC_SUBTREE_PATENTS = """
 MATCH (c:CPC) WHERE c.id IN $cpc_ids
 OPTIONAL MATCH (c)<-[:CHILD_OF*0..%d]-(d:CPC)
-WITH DISTINCT c, d
-MATCH (p:Patent)-[:CLASSIFIED_AS]->(d)
-WHERE NOT p.pub_id IN $exclude
-RETURN p.pub_id AS pub_id, c.id AS via, d.id AS cpc
-"""
-
-CPC_PARENT_PATENTS = """
-MATCH (c:CPC) WHERE c.id IN $cpc_ids
-MATCH (c)-[:CHILD_OF*1..%d]->(anc:CPC)<-[:CHILD_OF*0..%d]-(d:CPC)
 WITH DISTINCT c, d
 MATCH (p:Patent)-[:CLASSIFIED_AS]->(d)
 WHERE NOT p.pub_id IN $exclude
@@ -100,13 +91,6 @@ class GraphQueries:
     ) -> list[dict[str, Any]]:
         """Patents classified at or below each CPC node (depth levels down)."""
         q = CPC_SUBTREE_PATENTS % max(depth, 0)
-        return self._run(q, cpc_ids=list(cpc_ids), exclude=sorted(excl.exclude))
-
-    def cpc_sibling_patents(
-        self, cpc_ids: list[str], up: int, down: int, excl: Exclusion = NO_EXCLUSION
-    ) -> list[dict[str, Any]]:
-        """Patents under the `up`-th ancestor of each node, descending `down` levels."""
-        q = CPC_PARENT_PATENTS % (max(up, 1), max(down, 0))
         return self._run(q, cpc_ids=list(cpc_ids), exclude=sorted(excl.exclude))
 
     def family_members(

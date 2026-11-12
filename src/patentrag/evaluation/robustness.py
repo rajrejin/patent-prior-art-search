@@ -1,4 +1,4 @@
-"""Robustness study (Phase 11): query form, language, and corpus size.
+"""Robustness study: query form, language, and corpus size.
 
 Corpus-size subsampling is done at query time: documents outside the sampled fraction are added
 to the exclusion set, so they vanish from results and from graph traversal (no data is deleted),

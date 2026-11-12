@@ -1,4 +1,4 @@
-"""Normalised patent schema (Section 4.3)."""
+"""Normalised patent schema."""
 
 from __future__ import annotations
 

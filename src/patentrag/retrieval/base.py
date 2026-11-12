@@ -8,7 +8,7 @@ from typing import Any, Protocol
 
 @dataclass(frozen=True)
 class Exclusion:
-    """Query-time leakage controls (Section 7.1), applied without deleting any data.
+    """Query-time leakage controls, applied without deleting any data.
 
     exclude: pub_ids that may not appear in results or be traversed (query patent + family).
     hide_outgoing_from: pub_ids whose outgoing CITES edges are invisible for this query.
@@ -40,10 +40,3 @@ class Retriever(Protocol):
     name: str
 
     def search(self, query: str, k: int, excl: Exclusion = NO_EXCLUSION) -> list[Hit]: ...
-
-
-def top_k(scores: dict[str, float], k: int, excl: Exclusion) -> list[tuple[str, float]]:
-    """Deterministic ranking: score descending, pub_id ascending on ties."""
-    items = [(p, s) for p, s in scores.items() if p not in excl.exclude]
-    items.sort(key=lambda t: (-t[1], t[0]))
-    return items[:k]

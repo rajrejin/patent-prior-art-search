@@ -21,20 +21,24 @@ from patentrag.retrieval.vector import VectorRetriever
 def _top_ids(
     ids: list[str], scores: np.ndarray, n: int, excl: Exclusion, positive: bool = False
 ) -> list[str]:
+    """The `n` best-scoring ids (ties broken by id), skipping excluded and non-finite entries.
+
+    `positive=True` also skips scores of zero or less, which for BM25 means "no shared word".
+    """
     if n <= 0:
         return []
     order = np.lexsort((np.array(ids, dtype=object), -scores))
-    out: list[str] = []
+    top: list[str] = []
     for i in order:
-        s = scores[i]
-        if not np.isfinite(s) or (positive and s <= 0):
+        score = scores[i]
+        if not np.isfinite(score) or (positive and score <= 0):
             continue
         if ids[i] in excl.exclude:
             continue
-        out.append(ids[i])
-        if len(out) >= n:
+        top.append(ids[i])
+        if len(top) >= n:
             break
-    return out
+    return top
 
 
 @dataclass
@@ -60,25 +64,37 @@ class LexicalVectorScores:
         vector_pool: int,
         bm25_pool: int,
     ) -> LexicalVectorScores:
-        sim = {p: float(best[i]) for i, p in enumerate(matrix.pub_ids) if np.isfinite(best[i])}
-        bm: dict[str, float] = {}
+        """`best[i]` is the highest chunk similarity of patent `matrix.pub_ids[i]` to the query."""
+        sim = {
+            pub_id: float(best[i])
+            for i, pub_id in enumerate(matrix.pub_ids)
+            if np.isfinite(best[i])
+        }
+        bm25_scores: dict[str, float] = {}
+        # Candidate pool: the best patents by vector similarity, then the best by BM25.
         pool = _top_ids(matrix.pub_ids, best, vector_pool, excl)
         if bm25 is not None:
             raw = bm25.scores(query)
-            bm = {p: float(s) for p, s in zip(bm25.ids, raw, strict=True)}
-            seen = set(pool)
-            pool += [p for p in _top_ids(bm25.ids, raw, bm25_pool, excl, True) if p not in seen]
-        out = cls(sim, bm, pool)
-        out.normalise_on(pool)
-        return out
+            bm25_scores = {pub_id: float(s) for pub_id, s in zip(bm25.ids, raw, strict=True)}
+            already_in_pool = set(pool)
+            bm25_top = _top_ids(bm25.ids, raw, bm25_pool, excl, positive=True)
+            pool += [pub_id for pub_id in bm25_top if pub_id not in already_in_pool]
+        scores = cls(sim, bm25_scores, pool)
+        scores.normalise_on(pool)
+        return scores
 
     def normalise_on(self, ids: list[str]) -> None:
+        """Store the min and range of both score types over `ids` for min-max scaling.
+
+        Vector similarities and BM25 scores live on different scales, so each is rescaled
+        to 0..1 within the pool before they are added up.
+        """
         if not ids:
             return
-        s = [self.sim.get(p, 0.0) for p in ids]
-        b = [self.bm25.get(p, 0.0) for p in ids]
-        self.sim_lo, self.sim_span = min(s), max(s) - min(s)
-        self.bm_lo, self.bm_span = min(b), max(b) - min(b)
+        sims = [self.sim.get(pub_id, 0.0) for pub_id in ids]
+        bm25s = [self.bm25.get(pub_id, 0.0) for pub_id in ids]
+        self.sim_lo, self.sim_span = min(sims), max(sims) - min(sims)
+        self.bm_lo, self.bm_span = min(bm25s), max(bm25s) - min(bm25s)
 
     def sim_n(self, pid: str) -> float:
         if self.sim_span <= 0:
@@ -116,18 +132,23 @@ class HybridRetriever:
         self.pool_n = pool_n
 
     def search(self, query: str, k: int, excl: Exclusion = NO_EXCLUSION) -> list[Hit]:
-        best, arg = self.matrix.patent_sims(self.vector.embed_query(query), self.vector.sections)
-        sc = LexicalVectorScores.compute(
-            self.matrix, best, self.bm25, query, excl, self.pool_n, self.pool_n
+        # For every patent: similarity of its best-matching chunk, and which chunk that was.
+        query_vector = self.vector.embed_query(query)
+        best_sim, best_chunk = self.matrix.patent_sims(query_vector, self.vector.sections)
+        scores = LexicalVectorScores.compute(
+            self.matrix, best_sim, self.bm25, query, excl, self.pool_n, self.pool_n
         )
         ranked = sorted(
-            ((p, sc.fused(p, self.w_sim, self.w_bm25)) for p in sc.pool),
-            key=lambda t: (-t[1], t[0]),
+            ((pub_id, scores.fused(pub_id, self.w_sim, self.w_bm25)) for pub_id in scores.pool),
+            key=lambda item: (-item[1], item[0]),
         )
         hits = []
-        for p, s in ranked[:k]:
-            i = self.matrix.pub_index.get(p)
-            chunk = self.matrix.texts[int(arg[i])] if i is not None and arg[i] >= 0 else ""
-            feat = {"sim": sc.sim_n(p), "bm25": sc.bm25_n(p)}
-            hits.append(Hit(p, s, ["hybrid"], {"features": feat, "best_chunk": chunk}))
+        for pub_id, score in ranked[:k]:
+            row = self.matrix.pub_index.get(pub_id)
+            has_chunk = row is not None and best_chunk[row] >= 0
+            chunk_text = self.matrix.texts[int(best_chunk[row])] if has_chunk else ""
+            features = {"sim": scores.sim_n(pub_id), "bm25": scores.bm25_n(pub_id)}
+            hits.append(
+                Hit(pub_id, score, ["hybrid"], {"features": features, "best_chunk": chunk_text})
+            )
         return hits

@@ -1,6 +1,5 @@
 """Render markdown tables from results/*.json into results/tables_<scope>.md.
 
-Every number in the README and the guide is copied from this output; nothing is typed by hand.
 Works on the full result files and on the compact copies (it reads summaries only).
 Usage: python scripts/render_tables.py [scope]
 """

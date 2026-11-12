@@ -67,13 +67,6 @@ class VectorStore:
             )
         return out
 
-    def get_vectors(self, ids: list[str]) -> dict[str, np.ndarray]:
-        res: Any = self.col.get(ids=ids, include=["embeddings"])
-        return {
-            i: np.asarray(e, dtype=np.float32)
-            for i, e in zip(res["ids"], res["embeddings"], strict=True)
-        }
-
 
 class ChunkMatrix:
     """All chunk embeddings in memory for exact similarity to arbitrary patents.

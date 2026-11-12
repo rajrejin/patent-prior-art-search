@@ -4,9 +4,9 @@ Each entry: decision, alternatives considered, reason.
 
 ## D1. Citation-closed corpus instead of a plain EP/WO area sample
 
-* **Decision.** The corpus is two parts. Seeds: EP and WO publications sampled from the technology area (CPC `H01M10` or `B60L58`, seeded sample per month), exactly as the specification describes. Cited: every document the seeds cite (any authority) whose bibliographic record has an abstract or claims. Evaluation queries are built only from seed patents (`origin == "seed"`).
+* **Decision.** The corpus is two parts. Seeds: EP and WO publications sampled from the technology area (CPC `H01M10` or `B60L58`, seeded sample per month). Cited: every document the seeds cite (any authority) whose bibliographic record has an abstract or claims. Evaluation queries are built only from seed patents (`origin == "seed"`).
 * **Evidence.** On the 300-publication June 2020 slice, the seeds cite 1289 distinct documents (4.3 per seed). By authority: JP 412, US 264, CN 207, KR 147, WO 143, DE 63, EP 58. Only 50 (3.9 percent) are EP or WO documents with a known date of 2015 or later (796 of the cited documents carry no date in OPS, so the true share lies between 3.9 and 15.6 percent). The seeds-only corpus contained 0 of 1289 cited documents and gave 0 eligible query patents (Section 7.1 needs at least 3). Source: `results/history/citation_composition_slice.json`, produced from cached responses by `scripts/citation_composition.py` (since removed with the pilot corpus; in git history).
-* **Alternatives.** (a) EP/WO only, as specified: no usable ground truth. (b) Lower the minimum of 3 relevant documents: the specification fixes it. (c) Narrow the CPC area so 6000 documents cover it: the area would still be dominated by JP/US/CN/KR citations, which are outside the EP/WO scope.
+* **Alternatives.** (a) EP/WO only: no usable ground truth. (b) Lower the minimum of 3 relevant documents: too few relevant documents make the metrics unstable. (c) Narrow the CPC area so 6000 documents cover it: the area would still be dominated by JP/US/CN/KR citations, which are outside the EP/WO scope.
 * **Reason.** Citation ground truth needs the cited documents to exist in the corpus. The closure keeps the retrieval problem honest (the pool contains many real, on-topic documents that other queries cite) and the coverage is reported. Limitation: the candidate pool is far smaller than a real prior-art database, and cited documents are over-represented compared with a random sample of the area. This is stated in the README and `docs/EVALUATION_PROTOCOL.md`.
 * **Consequence.** Seeds carry biblio, claims and INPADOC family. Cited documents carry biblio and claims; their family id comes from the biblio record.
 
@@ -16,7 +16,7 @@ JSON from OPS is a converted XML with single-element lists collapsing to objects
 
 ## D3. Python version
 
-The existing venv uses Python 3.13 (specification requires 3.11 or newer). CI uses 3.11. Kept.
+The existing venv uses Python 3.13 (the project needs 3.11 or newer). CI uses 3.11. Kept.
 
 ## D4. CPC hierarchy
 

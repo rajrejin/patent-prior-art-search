@@ -1,4 +1,4 @@
-"""Test-set construction with leakage controls (Section 7.1).
+"""Test-set construction with leakage controls.
 
 Query = title + abstract of a corpus patent. Relevant = its cited documents that are inside the
 corpus, with the query's own document key and its family removed. Relevance is defined at
